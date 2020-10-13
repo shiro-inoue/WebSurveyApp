@@ -6,50 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>集計結果表示</title>
     <script src="aggregate.js"></script>
+    <script src="accessDB.js"></script>
 </head>
 
 <body>
     <h1>緊急時アンケート集計</h1>
-    <div id="responseRate">
-        <p>回答率：８０％</p>
+    <div id="infoResponseRateDateTime">
+        <p>回答率：８０％ 2020/10/08 18:24現在</p>
     </div>
-    <div id="dateTime">
-        <p>2020/10/08 18:24現在</p>
+    <div id="answer">
+        <p>回答を表示する</p>
     </div>
-    <h3>Q1．あなたは無事ですか？</h3>
-    <p>怪我などは無い 65%</p>
-    <p>怪我をしている 15%</p>
-    <br>
-    <h3>Q2．ご家族は無事ですか？</h3>
-    <p>全員無事 78%</p>
-    <p>連絡が取れない家族がいる 2%</p>
-    <br>
-    <h3>Q3．明日の出勤は可能ですか？</h3>
-    <p>出勤可能 44%</p>
-    <p>出勤はできない 16%</p>
-    <p>わからない 20%</p>
-    <br>
-    <h3>Q4．心配事があれば、選択してください（複数選択可）</h3>
-    <p>家が倒壊した 4件</p>
-    <p>ペットが見つからない 2件</p>
-    <p>避難所にいる 2件</p>
-    <p>その他 8件</p>
-    <br>
-    <h3>Q5．会社に伝えたいこと、不安などがあれば、ご記入ください。</h3>
-    <p>────────────────────────────────────────</p>
-    <p>ソーバル太郎</p>
-    <p>不安事項。不安事項。不安事項。不安事項。不安</p>
-    <p>不安事項。不安事項。不安事項。不安事項。不安</p>
-    <p>事項。事項。</p>
-    <p>────────────────────────────────────────</p>
-    <p>ソーバル太郎</p>
-    <p>不安事項。不安事項。不安事項。不安事項。不安</p>
-    <p>不安事項。不安事項。不安事項。不安事項。不安</p>
-    <p>事項。事項。</p>
 
     <script language="javascript" type="text/javascript">
-        dispResponseRate();
-        dispDayTime();
+        let responseRate = dispResponseRate();
+        let dayTime = dispDayTime();
+        console.log("responseRate = " + responseRate);
+        console.log("dayTime      = " + dayTime);
+        document.getElementById('infoResponseRateDateTime').innerHTML = "<p>回答率：" + responseRate + "％ " + dayTime + "現在" + "</p>";
+
         dispAnswer();
     </script>
 </body>

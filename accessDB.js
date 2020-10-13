@@ -5,7 +5,7 @@ getEmployeeAnswer
 }
 */
 
-var QUESTIONTYPE = {
+let QUESTIONTYPE = {
     radio: 1,
     check: 2,
     text: 3
@@ -16,27 +16,22 @@ let employeeTest1 = {
     "name": "test1",
     "question": [
         {
-            "title": "あなたは無事ですか？",
             "questiontype": QUESTIONTYPE.radio,
             "data": 1
         },
         {
-            "title": "家族は無事ですか？",
             "questiontype": QUESTIONTYPE.radio,
             "data": 2
         },
         {
-            "title": "明日の出勤は可能ですか？",
             "questiontype": QUESTIONTYPE.radio,
             "data": 3
         },
         {
-            "title": "心配事があれば、選択してください（複数選択可）",
             "questiontype": QUESTIONTYPE.check,
             "data": 13
         },
         {
-            "title": "会社に伝えたいこと、不安などがあれば、ご記入ください。",
             "questiontype": QUESTIONTYPE.text,
             "data": "anxiety1"
         }
@@ -47,27 +42,22 @@ let employeeTest2 = {
     "name": "test2",
     "question": [
         {
-            "title": "あなたは無事ですか？",
             "questiontype": QUESTIONTYPE.radio,
             "data": 0
         },
         {
-            "title": "家族は無事ですか？",
             "questiontype": QUESTIONTYPE.radio,
             "data": 0
         },
         {
-            "title": "明日の出勤は可能ですか？",
             "questiontype": QUESTIONTYPE.radio,
             "data": 0
         },
         {
-            "title": "心配事があれば、選択してください（複数選択可）",
             "questiontype": QUESTIONTYPE.check,
             "data": 0
         },
         {
-            "title": "会社に伝えたいこと、不安などがあれば、ご記入ください。",
             "questiontype": QUESTIONTYPE.text,
             "data": ""
         }
@@ -78,27 +68,22 @@ let employeeTest3 = {
     "name": "",
     "question": [
         {
-            "title": "あなたは無事ですか？",
             "questiontype": QUESTIONTYPE.radio,
             "data": 0
         },
         {
-            "title": "家族は無事ですか？",
             "questiontype": QUESTIONTYPE.radio,
             "data": 0
         },
         {
-            "title": "明日の出勤は可能ですか？",
             "questiontype": QUESTIONTYPE.radio,
             "data": 0
         },
         {
-            "title": "心配事があれば、選択してください（複数選択可）",
             "questiontype": QUESTIONTYPE.check,
             "data": 0
         },
         {
-            "title": "会社に伝えたいこと、不安などがあれば、ご記入ください。",
             "questiontype": QUESTIONTYPE.text,
             "data": ""
         }

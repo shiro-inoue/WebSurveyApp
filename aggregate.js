@@ -6,16 +6,16 @@ function dispDayTime() {
     let now = new Date();
     let year = now.getFullYear();
     let month = now.getMonth() + 1;
-    month = editDataFormat(month);
     let date = now.getDate();
-    date = editDataFormat(date);
     let hour = now.getHours();
-    hour = editDataFormat(hour);
     let min = now.getMinutes();
+
+    month = editDataFormat(month);
+    date = editDataFormat(date);
+    hour = editDataFormat(hour);
     min = editDataFormat(min);
 
     document.getElementById('dateTime').innerHTML = year + "/" + month + "/" + date + " " + hour + ":" + min + "現在";
-
 }
 
 function dispAnswer() {

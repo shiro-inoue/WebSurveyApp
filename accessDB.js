@@ -5,7 +5,11 @@ getEmployeeAnswer
 }
 */
 
-var QUESTIONTYPE = { radio: 1, check: 2, text: 3};
+var QUESTIONTYPE = {
+    radio: 1,
+    check: 2,
+    text: 3
+}
 
 let employeeTest1 = {
     "id": "000001",
@@ -169,5 +173,5 @@ function setEmployeeAnswer(json){
 }
 
 function getAnswer(){
-    return answerTest;
+    return JSON.stringify(answerTest);
 }

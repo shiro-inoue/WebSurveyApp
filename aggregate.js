@@ -1,5 +1,12 @@
 function dispResponseRate() {
-    document.getElementById('responseRate').innerHTML = "<p>回答率：７０％</p>";
+    let staffTotalNum = 800;
+    let respNum = 503;
+    responseRate = respNum / staffTotalNum * 100;
+    console.log("responseRate = " + responseRate);
+    // 回答率は、少数第一位まで、以下は切り捨て
+    responseRate = Math.floor(responseRate * 10) / 10;
+    console.log("responseRate = " + responseRate);
+    document.getElementById('responseRate').innerHTML = "<p>回答率：" + responseRate + "％</p>";
 }
 
 function dispDayTime() {
@@ -15,7 +22,7 @@ function dispDayTime() {
     hour = editDataFormat(hour);
     min = editDataFormat(min);
 
-    document.getElementById('dateTime').innerHTML = year + "/" + month + "/" + date + " " + hour + ":" + min + "現在";
+    document.getElementById('dateTime').innerHTML = "<p>" + year + "/" + month + "/" + date + " " + hour + ":" + min + "現在" + "</p>";
 }
 
 function dispAnswer() {

@@ -1,5 +1,3 @@
-
-
 let employeeName;
 let employeeNumber;
 let ans1;
@@ -7,7 +5,6 @@ let ans2;
 let ans3;
 let ans4;
 let ans5;
-
 
 
 window.onload = function() {
@@ -20,7 +17,7 @@ window.onload = function() {
     ans4 = 13;
     ans5 = "心配事サンプル";
 
-    dispEmployeeName()
+    dispEmployeeName();
     dispEmployeeAnswer();
 }
 
@@ -38,6 +35,7 @@ function dispEmployeeName(){
     document.getElementById("employeeName").innerHTML = employeeName + "さん"
     return;
 }
+
 
 function checkRadio(radio, value){
     if(value == 0){
@@ -108,7 +106,7 @@ function sendSurvery(){
     console.log("Answer5 = %s", a5.value);
 
 
-    setEmployeeAnswer()
+    setEmployeeAnswer();
 
 
     return;

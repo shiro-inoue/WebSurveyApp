@@ -166,7 +166,7 @@ function getAnsweredRatedata() {
 function getAnswer(json){
     let jsonParse = JSON.parse(json);
 
-    switch( jsonParse.id ) {
+    switch( jsonParse.questionId ) {
     case 1:
         return JSON.stringify(answerTest1);
     case 2:

@@ -16,24 +16,46 @@ let employeeTest1 = {
     "name": "test1",
     "question": [
         {
+            "title": "あなたは無事ですか？",
             "questiontype": QUESTIONTYPE.radio,
-            "data": 1
+            "sub": [
+                { "title": "怪我などは無い", "select": 1 },
+                { "title": "怪我をしている", "select": 0 },
+            ]
         },
         {
+            "title": "家族は無事ですか？",
             "questiontype": QUESTIONTYPE.radio,
-            "data": 2
+            "sub": [
+                { "title": "全員無事", "select": 0 },
+                { "title": "連絡が取れない家族がいる", "select": 1 },
+            ]
         },
         {
+            "title": "明日の出勤は可能ですか？",
             "questiontype": QUESTIONTYPE.radio,
-            "data": 3
+            "sub": [
+                { "title": "出勤可能", "select": 0 },
+                { "title": "出勤はできない", "select": 0 },
+                { "title": "わからない", "select": 1 },
+            ]
         },
         {
+            "title": "心配事があれば、選択してください（複数選択可）",
             "questiontype": QUESTIONTYPE.check,
-            "data": 13
+            "sub": [
+                { "title": "家が倒壊した", "select": 0 },
+                { "title": "ペットが見つからない", "select": 1 },
+                { "title": "避難所にいる", "select": 1 },
+                { "title": "その他", "select": 1 },
+            ]
         },
         {
+            "title": "会社に伝えたいこと、不安などがあれば、ご記入ください。",
             "questiontype": QUESTIONTYPE.text,
-            "data": "anxiety1"
+            "sub": [
+                { "text": "anxiety1" },
+            ]
         }
     ]
 }
@@ -42,24 +64,47 @@ let employeeTest2 = {
     "name": "test2",
     "question": [
         {
+            "title": "あなたは無事ですか？",
             "questiontype": QUESTIONTYPE.radio,
-            "data": 0
+            "sub": [
+                { "title": "怪我などは無い", "select": 0 },
+                { "title": "怪我をしている", "select": 0 },
+            ]
         },
         {
+            "title": "家族は無事ですか？",
             "questiontype": QUESTIONTYPE.radio,
-            "data": 0
+            "sub": [
+                { "title": "全員無事", "select": 0 },
+                { "title": "連絡が取れない家族がいる", "select": 0 },
+            ]
         },
         {
+            "title": "明日の出勤は可能ですか？",
             "questiontype": QUESTIONTYPE.radio,
-            "data": 0
+            "sub": [
+                { "title": "出勤可能", "select": 0 },
+                { "title": "出勤はできない", "select": 0 },
+                { "title": "わからない", "select": 0 },
+            ]
         },
         {
+            "title": "心配事があれば、選択してください（複数選択可）",
             "questiontype": QUESTIONTYPE.check,
-            "data": 0
+            "sub": [
+                { "title": "家が倒壊した", "select": 0 },
+                { "title": "ペットが見つからない", "select": 0 },
+                { "title": "避難所にいる", "select": 0 },
+                { "title": "その他", "select": 0 },
+            ]
         },
         {
+            "title": "会社に伝えたいこと、不安などがあれば、ご記入ください。",
             "questiontype": QUESTIONTYPE.text,
-            "data": ""
+            "sub": [
+                { "text": "" },
+                { "text": "" },
+            ]
         }
     ]
 }
@@ -68,24 +113,47 @@ let employeeTest3 = {
     "name": "",
     "question": [
         {
+            "title": "あなたは無事ですか？",
             "questiontype": QUESTIONTYPE.radio,
-            "data": 0
+            "sub": [
+                { "title": "怪我などは無い", "select": 0 },
+                { "title": "怪我をしている", "select": 0 },
+            ]
         },
         {
+            "title": "家族は無事ですか？",
             "questiontype": QUESTIONTYPE.radio,
-            "data": 0
+            "sub": [
+                { "title": "全員無事", "select": 0 },
+                { "title": "連絡が取れない家族がいる", "select": 0 },
+            ]
         },
         {
+            "title": "明日の出勤は可能ですか？",
             "questiontype": QUESTIONTYPE.radio,
-            "data": 0
+            "sub": [
+                { "title": "出勤可能", "select": 0 },
+                { "title": "出勤はできない", "select": 0 },
+                { "title": "わからない", "select": 0 },
+            ]
         },
         {
+            "title": "心配事があれば、選択してください（複数選択可）",
             "questiontype": QUESTIONTYPE.check,
-            "data": 0
+            "sub": [
+                { "title": "家が倒壊した", "select": 0 },
+                { "title": "ペットが見つからない", "select": 0 },
+                { "title": "避難所にいる", "select": 0 },
+                { "title": "その他", "select": 0 },
+            ]
         },
         {
+            "title": "会社に伝えたいこと、不安などがあれば、ご記入ください。",
             "questiontype": QUESTIONTYPE.text,
-            "data": ""
+            "sub": [
+                { "text": "" },
+                { "text": "" },
+            ]
         }
     ]
 }

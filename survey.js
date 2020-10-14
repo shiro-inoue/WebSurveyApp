@@ -1,29 +1,76 @@
-
+let employeeName;
 let employeeNumber;
+let ans1;
+let ans2;
+let ans3;
+let ans4;
+let ans5;
 
-//社員名と登録済み回答はDBから取得する
 
-function setEmployeeNumber(num){
+window.onload = function() {
+    //社員名と登録済み回答はDBから取得する
+    //まずは固定値で確認
+    employeeName = "ソーバル太郎"
+    ans1 = 1;
+    ans2 = 2;
+    ans3 = 3;
+    ans4 = 13;
+    ans5 = "心配事サンプル";
+
+    dispEmployeeName();
+    dispEmployeeAnswer();
+}
+
+
+function setEmployeeNumber(){
     //変数に社員番号を渡す
-    employeeNumber = num;
+    //入力の番号はどこから取得する？
+    //とりあえず固定値
+    employeeNumber = 1;
     return;
 }
 
 
-function dispEmployeeName(name){
-    //社員名 + さん を表示する
-    document.getElementById("employeeName").innerHTML = name + "さん"
+function dispEmployeeName(){
+    document.getElementById("employeeName").innerHTML = employeeName + "さん"
     return;
+}
+
+
+function checkRadio(radio, value){
+    if(value == 0){
+        for(i=0; i<radio.length; i++){
+            radio[i].checked = false;
+        }
+        return;
+    }
+
+    for(i=0; i<radio.length; i++){
+        if(i+1==value){
+            radio[i].checked = true;
+        }else{
+            radio[i].checked = false;
+        }
+    }
 }
 
 
 function dispEmployeeAnswer(){
-    //登録済みの回答を画面に反映する
-    //質問1 ラジオボタン 2択
-    //質問2 ラジオボタン 2択
-    //質問3 ラジオボタン 3択
-    //質問4 チェックボックス 4つ
-    //質問5 テキストボックス テキスト
+    let qIdElement = document.getElementById("qId");
+
+    checkRadio(qIdElement.ans1, ans1);
+    checkRadio(qIdElement.ans2, ans2);
+    checkRadio(qIdElement.ans3, ans3);
+
+    for(i=0; i<qIdElement.ans4.length; i++){
+        if(ans4&(2**i)){
+            qIdElement.ans4[i].checked = true;
+        }else{
+            qIdElement.ans4[i].checked = false;
+        }
+    }
+
+    qIdElement.ans5.value = ans5;
 
     return;
 }
@@ -32,6 +79,7 @@ function dispEmployeeAnswer(){
 function setEmployeeAnswer(){
     //回答を登録
     //JSONでDBに送る
+
     return;
 }
 
@@ -58,7 +106,7 @@ function sendSurvery(){
     console.log("Answer5 = %s", a5.value);
 
 
-    setEmployeeAnswer()
+    setEmployeeAnswer();
 
 
     return;

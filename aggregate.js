@@ -1,13 +1,27 @@
+window.onload = function () {
+    let responseRate = dispResponseRate();
+    let dayTime = dispDayTime();
+    // console.log("responseRate = " + responseRate);
+    // console.log("dayTime      = " + dayTime);
+    document.getElementById('infoResponseRateDateTime').innerHTML = "<p>回答率：" + responseRate + "％ " + dayTime + "現在" + "</p>";
+
+    dispAnswer();
+};
+
 function dispResponseRate() {
-    let staffTotalNum = 800;
-    let respNum = 503;
+    let json;
+    let jsonParse;
+
+    json = getAnsweredRatedata();
+    jsonParse = JSON.parse(json);
+    // console.log(jsonParse.total);
+    // console.log(jsonParse.response);
+
+    let staffTotalNum = jsonParse.total;
+    let respNum = jsonParse.response;
     let responseRate = respNum / staffTotalNum * 100;
     // console.log("responseRate = " + responseRate);
-    // 回答率は、少数第一位まで、以下は切り捨て
-    responseRate = Math.floor(responseRate * 10) / 10;
-    // console.log("responseRate = " + responseRate);
-
-    return responseRate;
+    return Math.floor(responseRate * 10) / 10;
 }
 
 function dispDayTime() {

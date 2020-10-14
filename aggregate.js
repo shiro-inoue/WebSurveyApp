@@ -21,7 +21,7 @@ function dispResponseRate() {
     let total = jsonParse.total;
     let response = jsonParse.response;
     if (total != 0) {
-        if (!(total < 0) && !(response < 0)) {
+        if (!(total < 0 || response < 0)) {
             if (!(total < response)) {
                 responseRate = response / total * 100;
                 responseRate = Math.floor(responseRate * 10) / 10;

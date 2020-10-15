@@ -1,82 +1,119 @@
-let employeeName;
 let employeeNumber;
-let ans1;
-let ans2;
-let ans3;
-let ans4;
-let ans5;
+let employeeName;
+let answers = [];
 
+window.onload = function () {
+    //入力社員番号は固定値で確認
+    setEmployeeNumber(1);
 
-window.onload = function() {
-    //社員名と登録済み回答はDBから取得する
-    //まずは固定値で確認
-    employeeName = "ソーバル太郎"
-    ans1 = 1;
-    ans2 = 2;
-    ans3 = 3;
-    ans4 = 13;
-    ans5 = "心配事サンプル";
+    if (getJsonData() == true) {
+        document.getElementById("employeeName").innerHTML = "";
+        document.getElementById("sendSurvey").disabled = false;
+    } else {
+        document.getElementById("employeeName").innerHTML = "エラー";
+        document.getElementById("sendSurvey").disabled = true;
+        return;
+    }
 
     dispEmployeeName();
+
     dispEmployeeAnswer();
 }
 
 
-function setEmployeeNumber(){
-    //変数に社員番号を渡す
-    //入力の番号はどこから取得する？
-    //とりあえず固定値
-    employeeNumber = 1;
+function getJsonData() {
+    let obj = new Object();
+    let json;
+    let jsonParse;
+    obj.id = ('000000' + employeeNumber).slice(-6);
+    jsonStringify = JSON.stringify(obj);
+    json = getEmployeeAnswer(jsonStringify);
+    jsonParse = JSON.parse(json);
+
+    employeeName = jsonParse.name
+    if (employeeName == "") {
+        return false;
+    }
+
+    for (i = 0; i < jsonParse.question.length; i++) {
+        q = jsonParse.question[i];
+        if (q.questiontype == QUESTIONTYPE.radio) {
+            for (j = 0; j < q.sub.length; j++) {
+                ansId = "ans" + (i + 1) + "_" + (j + 1);
+                idAndAns = { "id": ansId, "type": q.questiontype, "value": q.sub[j].select };
+                answers.push(idAndAns);
+            }
+        }
+        else if (q.questiontype == QUESTIONTYPE.check) {
+            for (j = 0; j < q.sub.length; j++) {
+                ansId = "ans" + (i + 1) + "_" + (j + 1);
+                idAndAns = { "id": ansId, "type": q.questiontype, "value": q.sub[j].select };
+                answers.push(idAndAns);
+            }
+        }
+        else if (q.questiontype == QUESTIONTYPE.text) {
+            ansId = "ans" + (i + 1) + "_1";
+            idAndAns = { "id": ansId, "type": q.questiontype, "value": q.sub[0].text };
+            answers.push(idAndAns);
+        }
+    }
+    return true;
+}
+
+
+function setEmployeeNumber(num) {
+    //社員番号は6桁整数
+    if ((num < 0) || (num > 999999)) {
+        num = 0;
+    }
+
+    employeeNumber = num;
     return;
 }
 
 
-function dispEmployeeName(){
+function dispEmployeeName() {
     document.getElementById("employeeName").innerHTML = employeeName + "さん"
     return;
 }
 
 
-function checkRadio(radio, value){
-    if(value == 0){
-        for(i=0; i<radio.length; i++){
-            radio[i].checked = false;
-        }
-        return;
-    }
-
-    for(i=0; i<radio.length; i++){
-        if(i+1==value){
-            radio[i].checked = true;
-        }else{
-            radio[i].checked = false;
-        }
+function checkButton(radio, value) {
+    if (value == 1) {
+        radio.checked = true;
+    } else {
+        radio.checked = false;
     }
 }
 
 
-function dispEmployeeAnswer(){
-    let qIdElement = document.getElementById("qId");
+function dispEmployeeAnswer() {
 
-    checkRadio(qIdElement.ans1, ans1);
-    checkRadio(qIdElement.ans2, ans2);
-    checkRadio(qIdElement.ans3, ans3);
+    for (i = 0; i < answers.length; i++) {
+        idElement = document.getElementById(answers[i].id);
+        if (idElement == null) {
+            //ID不一致
+            console.log("ID不一致");
+            //全クリアする？
+            continue;
+        }
 
-    for(i=0; i<qIdElement.ans4.length; i++){
-        if(ans4&(2**i)){
-            qIdElement.ans4[i].checked = true;
-        }else{
-            qIdElement.ans4[i].checked = false;
+        if (answers[i].type == QUESTIONTYPE.radio) {
+            checkButton(idElement, answers[i].value);
+        }
+        else if (answers[i].type == QUESTIONTYPE.check) {
+            checkButton(idElement, answers[i].value);
+        }
+        else if (answers[i].type == QUESTIONTYPE.text) {
+            idElement.value = answers[i].value;
         }
     }
-
-    qIdElement.ans5.value = ans5;
 
     return;
 }
 
 
-function setEmployeeAnswer(){
+function setEmployeeAnswer() {
     //回答を登録
     //JSONでDBに送る
 
@@ -84,7 +121,8 @@ function setEmployeeAnswer(){
 }
 
 
-function sendSurvery(){
+function sendSurvery() {
+    // forDebug ---
     console.log("OnButton sendSurvery");
 
     let a1 = document.getElementById("qId").ans1;
@@ -97,17 +135,16 @@ function sendSurvery(){
     console.log("Answer2 = %s", a2.value);
     console.log("Answer3 = %s", a3.value);
 
-    for(let i=0; i<a4.length; i++){
-        if(a4[i].checked){
-            console.log("Answer4_%d = %s", i+1, a4[i].value);
+    for (let i = 0; i < a4.length; i++) {
+        if (a4[i].checked) {
+            console.log("Answer4_%d = %s", i + 1, a4[i].value);
         }
     }
 
     console.log("Answer5 = %s", a5.value);
-
+    // --- forDebug
 
     setEmployeeAnswer();
-
 
     return;
 }

@@ -10,6 +10,8 @@ window.onload = function () {
         }else{
             setEmployeeNumber("");
         }
+    }else{
+        setEmployeeNumber("");
     }
 
     if (getJsonData() == true) {
@@ -30,7 +32,6 @@ function getJsonData() {
     let obj = new Object();
     let json;
     let jsonParse;
-    //obj.id = ('000000' + employeeNumber).slice(-6);
     obj.id = employeeNumber;
     jsonStringify = JSON.stringify(obj);
     json = getEmployeeAnswer(jsonStringify);
@@ -68,11 +69,6 @@ function getJsonData() {
 
 
 function setEmployeeNumber(num) {
-    //社員番号は6桁整数
-    // if ((num < 0) || (num > 999999)) {
-    //     num = 0;
-    // }
-
     employeeNumber = num;
     return;
 }

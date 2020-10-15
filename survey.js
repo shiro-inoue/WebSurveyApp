@@ -3,21 +3,26 @@ let employeeName;
 let answers = [];
 
 window.onload = function () {
-    //入力社員番号は固定値で確認
-    setEmployeeNumber(1);
+    let urlParam = location.search.substring(1).split('=');
+    if(urlParam.length >= 2){
+        if(urlParam[0] == "employeeId"){
+            setEmployeeNumber(urlParam[1]);
+        }else{
+            setEmployeeNumber("");
+        }
+    }
 
     if (getJsonData() == true) {
         document.getElementById("employeeName").innerHTML = "";
-        document.getElementById("sendSurvey").disabled = false;
     } else {
         document.getElementById("employeeName").innerHTML = "エラー";
-        document.getElementById("sendSurvey").disabled = true;
         return;
     }
 
     dispEmployeeName();
 
     dispEmployeeAnswer();
+
 }
 
 
@@ -25,7 +30,8 @@ function getJsonData() {
     let obj = new Object();
     let json;
     let jsonParse;
-    obj.id = ('000000' + employeeNumber).slice(-6);
+    //obj.id = ('000000' + employeeNumber).slice(-6);
+    obj.id = employeeNumber;
     jsonStringify = JSON.stringify(obj);
     json = getEmployeeAnswer(jsonStringify);
     jsonParse = JSON.parse(json);
@@ -63,9 +69,9 @@ function getJsonData() {
 
 function setEmployeeNumber(num) {
     //社員番号は6桁整数
-    if ((num < 0) || (num > 999999)) {
-        num = 0;
-    }
+    // if ((num < 0) || (num > 999999)) {
+    //     num = 0;
+    // }
 
     employeeNumber = num;
     return;
@@ -92,7 +98,6 @@ function dispEmployeeAnswer() {
     for (i = 0; i < answers.length; i++) {
         idElement = document.getElementById(answers[i].id);
         if (idElement == null) {
-            //ID不一致
             console.log("ID不一致");
             //全クリアする？
             continue;
@@ -109,9 +114,22 @@ function dispEmployeeAnswer() {
         }
     }
 
+    checkRadioButton();
+
     return;
 }
 
+function checkRadioButton(){
+    let a1 = document.getElementById("qId").ans1;
+    let a2 = document.getElementById("qId").ans2;
+    let a3 = document.getElementById("qId").ans3;
+
+    if( (a1.value != 0) && (a2.value != 0) && (a3.value != 0) ){
+        document.getElementById("sendSurvey").disabled = false;
+    }else{
+        document.getElementById("sendSurvey").disabled = true;
+    }
+}
 
 function setEmployeeAnswer() {
     //回答を登録
@@ -145,6 +163,8 @@ function sendSurvery() {
     // --- forDebug
 
     setEmployeeAnswer();
+
+    alert("送信しました");
 
     return;
 }

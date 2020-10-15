@@ -20,16 +20,23 @@ function dispResponseRate() {
     let responseRate = 0;
     let total = jsonParse.total;
     let response = jsonParse.response;
-    if (total != 0) {
-        if (!(total < 0 || response < 0)) {
-            if (!(total < response)) {
-                responseRate = response / total * 100;
-                responseRate = Math.floor(responseRate * 10) / 10;
-            }
-        }
+    if (isComputableNumber(total, response)) {
+        responseRate = response / total * 100;
+        responseRate = Math.floor(responseRate * 10) / 10;
     }
     // console.log("responseRate = " + responseRate);
     return responseRate.toFixed(1);
+}
+
+function isComputableNumber(total, response) {
+    if (total != 0) {
+        if (!(total < 0 || response < 0)) {
+            if (!(total < response)) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 function dispDayTime() {

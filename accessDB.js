@@ -70,7 +70,7 @@ async function getEmployeeAnswerDB(json) {
         answerObj.question.push(questionObj);
     }
 
-    return JSON.stringify(answerObj)
+    return JSON.stringify(answerObj);
 }
 
 function setEmployeeAnswerDB(json) {
@@ -86,7 +86,7 @@ async function getAnsweredRatedataDB() {
     answerObj.total = employeeObj.length;
     answerObj.response = surveyResultObj.length / surveyObj.length;
 
-    return JSON.stringify(answerObj)
+    return JSON.stringify(answerObj);
 }
 
 async function getAnswerDB(json) {
@@ -140,7 +140,7 @@ async function getAnswerDB(json) {
         }
     }
 
-    return JSON.stringify(answerObj)
+    return JSON.stringify(answerObj);
 }
 
 async function readCsv(filePath) {

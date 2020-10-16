@@ -2,7 +2,7 @@ let employeeNumber;
 let employeeName;
 let answers = [];
 
-window.onload = funtion() {
+window.onload = function() {
     let urlParam = location.search.substring(1).split('=');
     if (urlParam.length >= 2) {
         if (urlParam[0] == "employeeId") {
@@ -138,14 +138,7 @@ function setSendButtonState() {
 }
 
 function setEmployeeAnswer() {
-    let obj = new Object();
-    let json;
-    obj.id = employeeNumber;
-
     //回答を登録
-
-    jsonStringify = JSON.stringify(obj);
-    json = setEmployeeAnswer(jsonStringify);
 
     return;
 }

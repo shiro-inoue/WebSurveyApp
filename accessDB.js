@@ -1,251 +1,166 @@
-/*
-getEmployeeAnswer
-{
-  "id": "xxxxxx",
-}
-*/
-
 let QUESTIONTYPE = {
     radio: 1,
     check: 2,
     text: 3
 }
 
-let employeeTest1 = {
-    "id": "000001",
-    "name": "test1",
-    "question": [
-        {
-            "title": "あなたは無事ですか？",
-            "questiontype": QUESTIONTYPE.radio,
-            "sub": [
-                { "title": "怪我などは無い", "select": 1 },
-                { "title": "怪我をしている", "select": 0 },
-            ]
-        },
-        {
-            "title": "家族は無事ですか？",
-            "questiontype": QUESTIONTYPE.radio,
-            "sub": [
-                { "title": "全員無事", "select": 0 },
-                { "title": "連絡が取れない家族がいる", "select": 1 },
-            ]
-        },
-        {
-            "title": "明日の出勤は可能ですか？",
-            "questiontype": QUESTIONTYPE.radio,
-            "sub": [
-                { "title": "出勤可能", "select": 0 },
-                { "title": "出勤はできない", "select": 0 },
-                { "title": "わからない", "select": 1 },
-            ]
-        },
-        {
-            "title": "心配事があれば、選択してください（複数選択可）",
-            "questiontype": QUESTIONTYPE.check,
-            "sub": [
-                { "title": "家が倒壊した", "select": 0 },
-                { "title": "ペットが見つからない", "select": 1 },
-                { "title": "避難所にいる", "select": 1 },
-                { "title": "その他", "select": 1 },
-            ]
-        },
-        {
-            "title": "会社に伝えたいこと、不安などがあれば、ご記入ください。",
-            "questiontype": QUESTIONTYPE.text,
-            "sub": [
-                { "text": "anxiety1" },
-            ]
-        }
-    ]
-}
-let employeeTest2 = {
-    "id": "000002",
-    "name": "test2",
-    "question": [
-        {
-            "title": "あなたは無事ですか？",
-            "questiontype": QUESTIONTYPE.radio,
-            "sub": [
-                { "title": "怪我などは無い", "select": 0 },
-                { "title": "怪我をしている", "select": 0 },
-            ]
-        },
-        {
-            "title": "家族は無事ですか？",
-            "questiontype": QUESTIONTYPE.radio,
-            "sub": [
-                { "title": "全員無事", "select": 0 },
-                { "title": "連絡が取れない家族がいる", "select": 0 },
-            ]
-        },
-        {
-            "title": "明日の出勤は可能ですか？",
-            "questiontype": QUESTIONTYPE.radio,
-            "sub": [
-                { "title": "出勤可能", "select": 0 },
-                { "title": "出勤はできない", "select": 0 },
-                { "title": "わからない", "select": 0 },
-            ]
-        },
-        {
-            "title": "心配事があれば、選択してください（複数選択可）",
-            "questiontype": QUESTIONTYPE.check,
-            "sub": [
-                { "title": "家が倒壊した", "select": 0 },
-                { "title": "ペットが見つからない", "select": 0 },
-                { "title": "避難所にいる", "select": 0 },
-                { "title": "その他", "select": 0 },
-            ]
-        },
-        {
-            "title": "会社に伝えたいこと、不安などがあれば、ご記入ください。",
-            "questiontype": QUESTIONTYPE.text,
-            "sub": [
-                { "text": "" },
-                { "text": "" },
-            ]
-        }
-    ]
-}
-let employeeTest3 = {
-    "id": "",
-    "name": "",
-    "question": [
-        {
-            "title": "あなたは無事ですか？",
-            "questiontype": QUESTIONTYPE.radio,
-            "sub": [
-                { "title": "怪我などは無い", "select": 0 },
-                { "title": "怪我をしている", "select": 0 },
-            ]
-        },
-        {
-            "title": "家族は無事ですか？",
-            "questiontype": QUESTIONTYPE.radio,
-            "sub": [
-                { "title": "全員無事", "select": 0 },
-                { "title": "連絡が取れない家族がいる", "select": 0 },
-            ]
-        },
-        {
-            "title": "明日の出勤は可能ですか？",
-            "questiontype": QUESTIONTYPE.radio,
-            "sub": [
-                { "title": "出勤可能", "select": 0 },
-                { "title": "出勤はできない", "select": 0 },
-                { "title": "わからない", "select": 0 },
-            ]
-        },
-        {
-            "title": "心配事があれば、選択してください（複数選択可）",
-            "questiontype": QUESTIONTYPE.check,
-            "sub": [
-                { "title": "家が倒壊した", "select": 0 },
-                { "title": "ペットが見つからない", "select": 0 },
-                { "title": "避難所にいる", "select": 0 },
-                { "title": "その他", "select": 0 },
-            ]
-        },
-        {
-            "title": "会社に伝えたいこと、不安などがあれば、ご記入ください。",
-            "questiontype": QUESTIONTYPE.text,
-            "sub": [
-                { "text": "" },
-                { "text": "" },
-            ]
-        }
-    ]
-}
-let answerTest1 = {
-    "title": "あなたは無事ですか？",
-    "questiontype": QUESTIONTYPE.radio,
-    "sub": [
-        { "title": "怪我などは無い", "select": 21 },
-        { "title": "怪我をしている", "select": 29 },
-    ]
-}
-let answerTest2 = {
-    "title": "家族は無事ですか？",
-    "questiontype": QUESTIONTYPE.radio,
-    "sub": [
-        { "title": "全員無事", "select": 42 },
-        { "title": "連絡が取れない家族がいる", "select": 8 },
-    ]
-}
-let answerTest3 = {
-    "title": "明日の出勤は可能ですか？",
-    "questiontype": QUESTIONTYPE.radio,
-    "sub": [
-        { "title": "出勤可能", "select": 28 },
-        { "title": "出勤はできない", "select": 2 },
-        { "title": "わからない", "select": 20 },
-    ]
-}
-let answerTest4 = {
-    "title": "心配事があれば、選択してください（複数選択可）",
-    "questiontype": QUESTIONTYPE.check,
-    "sub": [
-        { "title": "家が倒壊した", "select": 4 },
-        { "title": "ペットが見つからない", "select": 2 },
-        { "title": "避難所にいる", "select": 3 },
-        { "title": "その他", "select": 5 },
-    ]
-}
-let answerTest5 = {
-    "title": "会社に伝えたいこと、不安などがあれば、ご記入ください。",
-    "questiontype": QUESTIONTYPE.text,
-    "sub": [
-        { "text": "test1 anxiety1" },
-        { "text": "test30 anxiety2" },
-    ]
-}
-let answerTest6 = {
-    "title": "",
-}
+const EMPLOYEE_DATA_PATH = "./data/employee.csv"
+const SURVEY_DATA_PATH = "./data/survey.csv"
+const SURVEY_RESULT_DATA_PATH = "./data/surveyResult.csv"
+const MAX_SUB_QUESTION = 5;
+const SUB_TITLE_NAME = "subTitle"
 
-let RatedataTest = {
-    "total": 200,
-    "response": 50
-}
-
-function getEmployeeAnswer(json) {
+async function getEmployeeAnswerDB(json) {
     let jsonParse = JSON.parse(json);
+    let answerObj = new Object();
+    let employeeObj = await readCsv(EMPLOYEE_DATA_PATH);
+    let surveyObj = await readCsv(SURVEY_DATA_PATH);
+    let surveyResultObj = await readCsv(SURVEY_RESULT_DATA_PATH);
+    let resultNo = -1;
 
-    if (jsonParse.id == "000001") {
-        return JSON.stringify(employeeTest1);
+    answerObj.id = "";
+    answerObj.name = "";
+    answerObj.question = [];
+
+    for (let i = 0; i < employeeObj.length; i++) {
+        if (employeeObj[i].id == jsonParse.id) {
+            answerObj.id = employeeObj[i].id;
+            answerObj.name = employeeObj[i].name;
+            break;
+        }
     }
-    else if (jsonParse.id == "000002") {
-        return JSON.stringify(employeeTest2);
+    for (let i = 0; i < surveyResultObj.length; i += surveyObj.length) {
+        if (surveyResultObj[i].id == jsonParse.id) {
+            resultNo = i;
+            break;
+        }
+    }
+    for (let i = 0; i < surveyObj.length; i++) {
+        let questionObj = new Object();
+        let subQuestionNum = 0;
+        questionObj.title = surveyObj[i].title;
+        questionObj.questiontype = surveyObj[i].questiontype;
+        questionObj.sub = [];
+
+        if (questionObj.questiontype == QUESTIONTYPE.text) {
+            subQuestionNum = 1;
+        }
+        else {
+            for (let j = 0; j < MAX_SUB_QUESTION; j++) {
+                if (surveyObj[i][SUB_TITLE_NAME + (j + 1).toString(10)] == "") {
+                    break;
+                }
+                subQuestionNum++;
+            }
+        }
+        for (let j = 0; j < subQuestionNum; j++) {
+            let subObj = new Object();
+
+            subObj.title = surveyObj[i][SUB_TITLE_NAME + (j + 1).toString(10)];
+            if (resultNo >= 0) {
+                subObj.select = (parseInt(surveyResultObj[i + resultNo].select, 10) >> j) & 1;
+                subObj.text = surveyResultObj[i + resultNo].text;
+            }
+            else {
+                subObj.select = 0
+                subObj.text = ""
+            }
+            questionObj.sub.push(subObj);
+        }
+        answerObj.question.push(questionObj);
+    }
+
+    return JSON.stringify(answerObj)
+}
+
+function setEmployeeAnswerDB(json) {
+    return;
+}
+
+async function getAnsweredRatedataDB() {
+    let answerObj = new Object();
+    let employeeObj = await readCsv(EMPLOYEE_DATA_PATH);
+    let surveyObj = await readCsv(SURVEY_DATA_PATH);
+    let surveyResultObj = await readCsv(SURVEY_RESULT_DATA_PATH);
+
+    answerObj.total = employeeObj.length;
+    answerObj.response = surveyResultObj.length / surveyObj.length;
+
+    return JSON.stringify(answerObj)
+}
+
+async function getAnswerDB(json) {
+    let jsonParse = JSON.parse(json);
+    let answerObj = new Object();
+    let employeeObj = await readCsv(EMPLOYEE_DATA_PATH);
+    let surveyObj = await readCsv(SURVEY_DATA_PATH);
+    let surveyResultObj = await readCsv(SURVEY_RESULT_DATA_PATH);
+    let subQuestionNum = 0;
+
+    if (jsonParse.questionId > surveyObj.length) {
+        answerObj.title = "";
     }
     else {
-        return JSON.stringify(employeeTest3);
+        answerObj.title = surveyObj[jsonParse.questionId - 1].title;
+        answerObj.questiontype = surveyObj[jsonParse.questionId - 1].questiontype;
+        answerObj.sub = [];
+
+        if (answerObj.questiontype == QUESTIONTYPE.text) {
+            for (let i = 0; i < surveyResultObj.length; i += surveyObj.length) {
+                let subObj = new Object();
+                let name = "";
+
+                for (let j = 0; j < employeeObj.length; j++) {
+                    if (employeeObj[j].id == surveyResultObj[i + jsonParse.questionId - 1].id) {
+                        name = employeeObj[j].name;
+                        break;
+                    }
+                }
+                subObj.text = name + " " + surveyResultObj[i + jsonParse.questionId - 1].text;
+                answerObj.sub.push(subObj);
+            }
+        }
+        else {
+            for (let i = 0; i < MAX_SUB_QUESTION; i++) {
+                if (surveyObj[jsonParse.questionId - 1][SUB_TITLE_NAME + (i + 1).toString(10)] == "") {
+                    break;
+                }
+                subQuestionNum++;
+            }
+            for (let i = 0; i < subQuestionNum; i++) {
+                let subObj = new Object();
+
+                subObj.title = surveyObj[jsonParse.questionId - 1][SUB_TITLE_NAME + (i + 1).toString(10)];
+                subObj.select = 0;
+                for (let j = 0; j < surveyResultObj.length; j += surveyObj.length) {
+                    subObj.select += (parseInt(surveyResultObj[j + jsonParse.questionId - 1].select, 10) >> i) & 1;
+                }
+                answerObj.sub.push(subObj);
+            }
+        }
     }
+
+    return JSON.stringify(answerObj)
 }
 
-function setEmployeeAnswer(json) {
-    return ;
-}
+async function readCsv(filePath) {
+    let csvObj = [];
 
-function getAnsweredRatedata() {
-    return JSON.stringify(RatedataTest);
-}
+    const res = await fetch(filePath)
+    const ab = await res.arrayBuffer()
+    const td = new TextDecoder("Shift_JIS")
+    csvText = td.decode(ab);
 
-function getAnswer(json){
-    let jsonParse = JSON.parse(json);
-
-    switch( jsonParse.questionId ) {
-    case 1:
-        return JSON.stringify(answerTest1);
-    case 2:
-        return JSON.stringify(answerTest2);
-    case 3:
-        return JSON.stringify(answerTest3);
-    case 4:
-        return JSON.stringify(answerTest4);
-    case 5:
-        return JSON.stringify(answerTest5);
-    default:
-        return JSON.stringify(answerTest6);
+    let lines = csvText.split("\r\n");
+    let items = lines[0].split(",");
+    for (let i = 1; i < lines.length; i++) {
+        let lineObj = new Object();
+        let cells = lines[i].split(",");
+        for (let j = 0; j < items.length; j++) {
+            lineObj[items[j]] = cells[j];
+        }
+        csvObj.push(lineObj);
     }
+
+    return csvObj;
 }

@@ -18,21 +18,21 @@
     <form id="qId">
         <h2>Q1. あなたは無事ですか？</h2>
         <p style="padding-left:1em">
-            <input type="radio" id="ans1_1" name="ans1" value="1">怪我などは無い<br>
-            <input type="radio" id="ans1_2" name="ans1" value="2">怪我をしている<br>
+            <input type="radio" id="ans1_1" name="ans1" value="1" onclick="setSendButtonState()">怪我などは無い<br>
+            <input type="radio" id="ans1_2" name="ans1" value="2" onclick="setSendButtonState()">怪我をしている<br>
         </p>
 
         <h2>Q2. ご家族は無事ですか？</h2>
         <p style="padding-left:1em">
-            <input type="radio" id="ans2_1" name="ans2" value="1">全員無事<br>
-            <input type="radio" id="ans2_2" name="ans2" value="2">連絡が取れない家族がいる<br>
+            <input type="radio" id="ans2_1" name="ans2" value="1" onclick="setSendButtonState()">全員無事<br>
+            <input type="radio" id="ans2_2" name="ans2" value="2" onclick="setSendButtonState()">連絡が取れない家族がいる<br>
         </p>
 
         <h2>Q3. 明日の出勤は可能ですか？</h2>
         <p style="padding-left:1em">
-            <input type="radio" id="ans3_1" name="ans3" value="1">出勤可能<br>
-            <input type="radio" id="ans3_2" name="ans3" value="2">出勤はできない<br>
-            <input type="radio" id="ans3_3" name="ans3" value="3">わからない<br>
+            <input type="radio" id="ans3_1" name="ans3" value="1" onclick="setSendButtonState()">出勤可能<br>
+            <input type="radio" id="ans3_2" name="ans3" value="2" onclick="setSendButtonState()">出勤はできない<br>
+            <input type="radio" id="ans3_3" name="ans3" value="3" onclick="setSendButtonState()">わからない<br>
         </p>
 
         <h2>Q4. 心配事があれば、選択してください(複数選択可)</h2>
@@ -50,7 +50,7 @@
     <br>
 
     <div style="text-align: center">
-        <input type="button" id="sendSurvey" value="送信" onClick="sendSurvery()"><br>
+        <input type="button" disabled id="sendSurvey" value="送信" onClick="sendSurvery()"><br>
     </div>
 
 </body>

@@ -145,9 +145,9 @@ function setEmployeeAnswer() {
     answerDB.question[2].sub[2].select = Number(document.getElementById("ans3_3").value);
 
     answerDB.question[3].sub[0].select = Number(document.getElementById("ans4_1").value);
-    answerDB.question[3].sub[1].select = Number(document.getElementById("ans4_1").value);
-    answerDB.question[3].sub[2].select = Number(document.getElementById("ans4_1").value);
-    answerDB.question[3].sub[3].select = Number(document.getElementById("ans4_1").value);
+    answerDB.question[3].sub[1].select = Number(document.getElementById("ans4_2").value);
+    answerDB.question[3].sub[2].select = Number(document.getElementById("ans4_3").value);
+    answerDB.question[3].sub[3].select = Number(document.getElementById("ans4_4").value);
 
     answerDB.question[4].sub[0].text = document.getElementById("ans5_1").value;;
 

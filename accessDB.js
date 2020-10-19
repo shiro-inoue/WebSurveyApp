@@ -173,7 +173,7 @@ async function getAnswerDB(json) {
                             break;
                         }
                     }
-                    subObj.text = name + " " + surveyResultObj[i + jsonParse.questionId - 1].text.replace("\v", "\n");
+                    subObj.text = name + "\n" + surveyResultObj[i + jsonParse.questionId - 1].text.replace("\v", "\n");
                 }
                 answerObj.sub.push(subObj);
             }

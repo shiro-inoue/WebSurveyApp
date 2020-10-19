@@ -1,42 +1,29 @@
-window.onload = function () {
-    let responseRate = dispResponseRate();
-    let dayTime = dispDayTime();
-    // console.log("responseRate = " + responseRate);
-    // console.log("dayTime      = " + dayTime);
-    document.getElementById('infoResponseRateDateTime').innerHTML = "<p>回答率：" + responseRate + "％ " + dayTime + "現在" + "</p>";
+let total = 0;
+let response = 0;
 
+window.onload = function () {
+    dispResponseRate();
+    dispDayTime();
     dispAnswer();
 };
 
-function dispResponseRate() {
+async function dispResponseRate() {
     let json;
     let jsonParse;
 
-    json = getAnsweredRatedata();
+    json = await getAnsweredRatedataDB();
     jsonParse = JSON.parse(json);
-    // console.log(jsonParse.total);
-    // console.log(jsonParse.response);
+    // console.log("jsonParse.total = " + jsonParse.total);
+    // console.log("jsonParse.response = " + jsonParse.response);
 
     let responseRate = 0;
-    let total = jsonParse.total;
-    let response = jsonParse.response;
-    if (isComputableNumber(total, response)) {
-        responseRate = response / total * 100;
-        responseRate = Math.floor(responseRate * 10) / 10;
+    total = jsonParse.total;
+    response = jsonParse.response;
+    if (isComputableNumber(response)) {
+        responseRate = calcResponseRate(response);
     }
     // console.log("responseRate = " + responseRate);
-    return responseRate.toFixed(1);
-}
-
-function isComputableNumber(total, response) {
-    if (total != 0) {
-        if (!(total < 0 || response < 0)) {
-            if (!(total < response)) {
-                return true;
-            }
-        }
-    }
-    return false;
+    document.getElementById('responseRate').innerHTML = formattingHTMLResponseRate(responseRate.toFixed(1));
 }
 
 function dispDayTime() {
@@ -53,37 +40,125 @@ function dispDayTime() {
     min = editDataFormat(min);
 
     let dayTime = year + "/" + month + "/" + date + " " + hour + ":" + min;
-    return dayTime;
+    document.getElementById('dateTime').innerHTML = formattingHTMLDayTime(dayTime);
 }
 
-function dispAnswer() {
-    let text = "";
+async function dispAnswer() {
+    let obj = new Object();
+    let json;
+    let jsonParse;
+    obj.questionId = 1;
+
     let html = "";
-    let qId = new Array("q1", "q2", "q3", "q4", "q5");
-    qId.forEach((id, i) => {
-        // console.log("getAnswer(" + `${id}` + ")");
-        text = getAnswerDummy(`${id}`);
-        // console.log("text = " + text);
-        const messages = text.split('\n');
-        // console.log(messages);
-        html += "<div>"
-        messages.forEach((answer, j) => {
-            // 先頭に空行が入っている
-            if (j != 0) {
-                if (j == 1) {
-                    html += "<h4>" + answer + "</h4>";
-                }
-                else {
-                    html += "<pre>" + answer + "</pre>";
-                    // html += "<p>" + answer + "</p>";
-                    // const moge = answer.split(' ');
-                    // html += "<table><tr>" + "<td>" + moge[0] + "</td>" + "<td>" + moge[1] + "</td>" + "</tr></table>";
-                }
-            }
-        });
-        html += "<br></div>";
-    });
+    let title = "";
+
+    while (true) {
+        // console.log("obj.questionId = " + obj.questionId);
+        jsonStringify = JSON.stringify(obj);
+        json = await getAnswerDB(jsonStringify);
+        jsonParse = JSON.parse(json);
+        // console.log("Object.keys(jsonParse).length = " + Object.keys(jsonParse).length);
+
+        if (jsonParse.title.length == 0) {
+            break;
+        }
+        // console.log("jsonParse.title = " + jsonParse.title);
+        html += "<div>";
+        title = "Q" + obj.questionId + ". " + jsonParse.title;
+        html += "<h4>" + title + "</h4>";
+        html = genAnswerPart(html, jsonParse);
+        html += "</div><br>";
+
+        ++obj.questionId;
+    }
     document.getElementById('answer').innerHTML = html;
+}
+
+function genAnswerPart(html, jsonParse) {
+    let answer = "";
+    let unitPercentage = "％";
+    let unitNumber = "件";
+
+    // console.log("jsonParse.sub.length = " + jsonParse.sub.length);
+    jsonParse.sub.forEach((sub, i) => {
+        answer = "";
+        // console.log("jsonParse.questiontype = " + jsonParse.questiontype);
+        switch (parseInt(jsonParse.questiontype)) {
+            case QUESTIONTYPE.radio:
+                if (sub.title != undefined && sub.select != undefined) {
+                    // console.log("jsonParse.sub[" + i + "].title  = " + sub.title);
+                    // console.log("jsonParse.sub[" + i + "].select = " + sub.select);
+                    answer = formattingHTMLTitle(sub.title);
+                    if (isComputableNumber(response) && isComputableNumber(sub.select)) {
+                        responseRate = calcResponseRate(sub.select);
+                    }
+                    else {
+                        responseRate = 0;
+                    }
+                    // console.log("responseRate = " + responseRate);
+                    answer += formattingHTMLSelect(responseRate.toFixed(1) + unitPercentage);
+                }
+                break;
+            case QUESTIONTYPE.check:
+                if (sub.title != undefined && sub.select != undefined) {
+                    // console.log("jsonParse.sub[" + i + "].title  = " + sub.title);
+                    // console.log("jsonParse.sub[" + i + "].select = " + sub.select);
+                    answer = formattingHTMLTitle(sub.title);
+                    answer += formattingHTMLSelect(sub.select + unitNumber);
+                }
+                break;
+            case QUESTIONTYPE.text:
+                if (sub.text != undefined) {
+                    // console.log("jsonParse.sub[" + i + "].text   = " + sub.text);
+                    answer = formattingHTMLText(sub.text);
+                }
+                break;
+            default:
+                console.log("default");
+        }
+        if (answer.length != 0) {
+            html += "<p>" + answer + "</p>";
+        }
+    });
+    return html;
+}
+
+function formattingHTMLResponseRate(responseRate) {
+    return "<span style=\"display: inline-block; font-size:16pt;\">回答率：" + responseRate + "％</span>";
+}
+
+function formattingHTMLDayTime(dayTime) {
+    return "<span style=\"display: inline-block; width: 500px; font-size:10pt; text-align:right;\">" + dayTime + "現在</span>";
+}
+
+function formattingHTMLTitle(title) {
+    return "<span style=\"display: inline-block; text-indent:1em; width: 300px;\">" + title + "</span>";
+}
+
+function formattingHTMLSelect(select) {
+    return "<span style=\"display: inline-block; width: 100px;\">" + select + "</span>";
+}
+
+function formattingHTMLText(text) {
+    return "<span style=\"display: inline-block; text-indent:1em;\">" + text + "</span>";
+}
+
+function isComputableNumber(resp) {
+    if (total != 0) {
+        if (!(total < 0 || resp < 0)) {
+            if (!(total < resp)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function calcResponseRate(resp) {
+    let responseRate = 0;
+    responseRate = resp / total * 100;
+    responseRate = Math.floor(responseRate * 10) / 10;
+    return responseRate;
 }
 
 function editDataFormat(data) {
@@ -94,54 +169,4 @@ function editDataFormat(data) {
     }
     // console.log("Out data = " + data);
     return data;
-}
-
-function getAnswerDummy(qid) {
-    let text;
-    switch (qid) {
-        case "q1":
-            text = `
-Q1．あなたは無事ですか？
-怪我などは無い 65%
-怪我をしている 15%`;
-            break;
-        case "q2":
-            text = `
-Q2．ご家族は無事ですか？
-全員無事 78%
-連絡が取れない家族がいる 2%`;
-            break;
-        case "q3":
-            text = `
-Q3．明日の出勤は可能ですか？
-出勤可能 44%
-出勤はできない 16%
-わからない 20%`;
-            break;
-        case "q4":
-            text = `
-Q4．心配事があれば、選択してください（複数選択可）
-家が倒壊した 4件
-ペットが見つからない 2件
-避難所にいる 2件
-その他 8件`;
-            break;
-        case "q5":
-        default:
-            text = `
-Q5．会社に伝えたいこと、不安などがあれば、ご記入ください。
-────────────────────────────────────────
-ソーバル太郎
-不安事項。不安事項。不安事項。不安事項。不安
-不安事項。不安事項。不安事項。不安事項。不安
-事項。事項。
-────────────────────────────────────────
-ソーバル太郎
-不安事項。不安事項。不安事項。不安事項。不安
-不安事項。不安事項。不安事項。不安事項。不安
-事項。事項。
-────────────────────────────────────────`;
-            break;
-    }
-    return text;
 }

@@ -1,81 +1,79 @@
-let employeeNumber;
-let employeeName;
-let answers = [];
+let employeeNumber = "";
+let employeeName = "";
+let answersToDisp = [];
 
-window.onload = function() {
+let answerDB;
+
+
+window.onload = function () {
     let urlParam = location.search.substring(1).split('=');
     if (urlParam.length >= 2) {
         if (urlParam[0] == "employeeId") {
-            setEmployeeNumber(urlParam[1]);
+            employeeNumber = urlParam[1];
         } else {
-            setEmployeeNumber("");
+            employeeNumber = "";
         }
     } else {
-        setEmployeeNumber("");
+        employeeNumber = "";
     }
 
-    if (getJsonData() == true) {
-        document.getElementById("employeeName").innerHTML = "";
-    } else {
-        document.getElementById("employeeName").innerHTML = "エラー";
-        return;
-    }
-
-    dispEmployeeName();
-
-    dispEmployeeAnswer();
-
+    getDbAnswers().then(result => {
+        if (result) {
+            document.getElementById("employeeName").innerHTML = "";
+        } else {
+            document.getElementById("employeeName").innerHTML = "エラー";
+        }
+        dispEmployeeName();
+        dispEmployeeAnswer();
+    });
 }
 
 
-function getJsonData() {
+async function getDbAnswers() {
     let obj = new Object();
     let json;
-    let jsonParse;
     obj.id = employeeNumber;
-    jsonStringify = JSON.stringify(obj);
-    json = getEmployeeAnswer(jsonStringify);
-    jsonParse = JSON.parse(json);
+    let jsonStringify = JSON.stringify(obj);
+    json = await getEmployeeAnswerDB(jsonStringify);
+    answerDB = JSON.parse(json);
 
-    employeeName = jsonParse.name
+    employeeName = answerDB.name;
     if (employeeName == "") {
         return false;
     }
 
-    for (i = 0; i < jsonParse.question.length; i++) {
-        q = jsonParse.question[i];
+    let q;
+    let ansId;
+    let idAndAns;
+    for (i = 0; i < answerDB.question.length; i++) {
+        q = answerDB.question[i];
         if (q.questiontype == QUESTIONTYPE.radio) {
             for (j = 0; j < q.sub.length; j++) {
                 ansId = "ans" + (i + 1) + "_" + (j + 1);
                 idAndAns = { "id": ansId, "type": q.questiontype, "value": q.sub[j].select };
-                answers.push(idAndAns);
+                answersToDisp.push(idAndAns);
             }
         }
         else if (q.questiontype == QUESTIONTYPE.check) {
             for (j = 0; j < q.sub.length; j++) {
                 ansId = "ans" + (i + 1) + "_" + (j + 1);
                 idAndAns = { "id": ansId, "type": q.questiontype, "value": q.sub[j].select };
-                answers.push(idAndAns);
+                answersToDisp.push(idAndAns);
             }
         }
         else if (q.questiontype == QUESTIONTYPE.text) {
             ansId = "ans" + (i + 1) + "_1";
             idAndAns = { "id": ansId, "type": q.questiontype, "value": q.sub[0].text };
-            answers.push(idAndAns);
+            answersToDisp.push(idAndAns);
         }
     }
+
     return true;
 }
 
 
-function setEmployeeNumber(num) {
-    employeeNumber = num;
-    return;
-}
-
-
 function dispEmployeeName() {
-    document.getElementById("employeeName").innerHTML = employeeName + "さん"
+    document.getElementById("employeeName").innerHTML = employeeName + "さん";
     return;
 }
 
@@ -91,22 +89,22 @@ function checkButton(radio, value) {
 
 function dispEmployeeAnswer() {
 
-    for (i = 0; i < answers.length; i++) {
-        idElement = document.getElementById(answers[i].id);
+    for (i = 0; i < answersToDisp.length; i++) {
+        let idElement = document.getElementById(answersToDisp[i].id);
         if (idElement == null) {
             console.log("ID不一致");
             //全クリアする？
             continue;
         }
 
-        if (answers[i].type == QUESTIONTYPE.radio) {
-            checkButton(idElement, answers[i].value);
+        if (answersToDisp[i].type == QUESTIONTYPE.radio) {
+            checkButton(idElement, answersToDisp[i].value);
         }
-        else if (answers[i].type == QUESTIONTYPE.check) {
-            checkButton(idElement, answers[i].value);
+        else if (answersToDisp[i].type == QUESTIONTYPE.check) {
+            checkButton(idElement, answersToDisp[i].value);
         }
-        else if (answers[i].type == QUESTIONTYPE.text) {
-            idElement.value = answers[i].value;
+        else if (answersToDisp[i].type == QUESTIONTYPE.text) {
+            idElement.value = answersToDisp[i].value;
         }
     }
 
@@ -137,35 +135,34 @@ function setSendButtonState() {
     }
 }
 
+
 function setEmployeeAnswer() {
-    //回答を登録
+    answerDB.question[0].sub[0].select = Number(document.getElementById("ans1_1").value);
+    answerDB.question[0].sub[1].select = Number(document.getElementById("ans1_2").value);
+
+    answerDB.question[1].sub[0].select = Number(document.getElementById("ans2_1").value);
+    answerDB.question[1].sub[1].select = Number(document.getElementById("ans2_2").value);
+
+    answerDB.question[2].sub[0].select = Number(document.getElementById("ans3_1").value);
+    answerDB.question[2].sub[1].select = Number(document.getElementById("ans3_2").value);
+    answerDB.question[2].sub[2].select = Number(document.getElementById("ans3_3").value);
+
+    answerDB.question[3].sub[0].select = Number(document.getElementById("ans4_1").value);
+    answerDB.question[3].sub[1].select = Number(document.getElementById("ans4_2").value);
+    answerDB.question[3].sub[2].select = Number(document.getElementById("ans4_3").value);
+    answerDB.question[3].sub[3].select = Number(document.getElementById("ans4_4").value);
+
+    answerDB.question[4].sub[0].text = document.getElementById("ans5_1").value;
+
+
+    let jsonStringify = JSON.stringify(answerDB);
+    setEmployeeAnswerDB(jsonStringify);
 
     return;
 }
 
 
 function sendSurvery() {
-    // forDebug ---
-    console.log("OnButton sendSurvery");
-
-    let a1 = document.getElementById("qId").ans1;
-    let a2 = document.getElementById("qId").ans2;
-    let a3 = document.getElementById("qId").ans3;
-    let a4 = document.getElementById("qId").ans4;
-    let a5 = document.getElementById("qId").ans5;
-
-    console.log("Answer1 = %s", a1.value);
-    console.log("Answer2 = %s", a2.value);
-    console.log("Answer3 = %s", a3.value);
-
-    for (let i = 0; i < a4.length; i++) {
-        if (a4[i].checked) {
-            console.log("Answer4_%d = %s", i + 1, a4[i].value);
-        }
-    }
-
-    console.log("Answer5 = %s", a5.value);
-    // --- forDebug
 
     setEmployeeAnswer();
 

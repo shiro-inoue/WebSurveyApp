@@ -109,8 +109,10 @@ function genAnswerPart(html, jsonParse) {
                 break;
             case QUESTIONTYPE.text:
                 if (sub.text != undefined) {
-                    // console.log("jsonParse.sub[" + i + "].text   = " + sub.text);
-                    answer = formattingHTMLText(sub.text);
+                    if (sub.text.length != 0) {
+                        // console.log("jsonParse.sub[" + i + "].text   = " + sub.text);
+                        answer = formattingHTMLText(sub.text);
+                    }
                 }
                 break;
             default:

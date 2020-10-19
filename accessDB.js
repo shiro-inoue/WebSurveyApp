@@ -60,7 +60,7 @@ async function getEmployeeAnswerDB(json) {
             subObj.title = surveyObj[i][SUB_TITLE_NAME + (j + 1).toString(10)];
             if (resultNo >= 0) {
                 subObj.select = (parseInt(surveyResultObj[i + resultNo].select, 10) >> j) & 1;
-                subObj.text = surveyResultObj[i + resultNo].text;
+                subObj.text = surveyResultObj[i + resultNo].text.replace("\v", "\n");
             }
             else {
                 subObj.select = 0;
@@ -90,7 +90,7 @@ async function setEmployeeAnswerDB(json) {
     if (resultNo >= 0) {
         for (let i = 0; i < surveyObj.length; i++) {
             if (surveyObj[i].questiontype == QUESTIONTYPE.text) {
-                surveyResultObj[i + resultNo].text = jsonParse.question[i].sub[0].text;
+                surveyResultObj[i + resultNo].text = jsonParse.question[i].sub[0].text.replace(/\r?\n/g, "\v");
             }
             else {
                 surveyResultObj[i + resultNo].select = 0;
@@ -111,7 +111,7 @@ async function setEmployeeAnswerDB(json) {
             lineObj.questionId = surveyObj[i].questionId;
             if (surveyObj[i].questiontype == QUESTIONTYPE.text) {
                 lineObj.select = 0;
-                lineObj.text = jsonParse.question[i].sub[0].text;
+                lineObj.text = jsonParse.question[i].sub[0].text.replace(/\r?\n/g, "\v");
             }
             else {
                 lineObj.text = "";
@@ -161,15 +161,20 @@ async function getAnswerDB(json) {
         if (answerObj.questiontype == QUESTIONTYPE.text) {
             for (let i = 0; i < surveyResultObj.length; i += surveyObj.length) {
                 let subObj = new Object();
-                let name = "";
 
-                for (let j = 0; j < employeeObj.length; j++) {
-                    if (employeeObj[j].id == surveyResultObj[i + jsonParse.questionId - 1].id) {
-                        name = employeeObj[j].name;
-                        break;
-                    }
+                if (surveyResultObj[i + jsonParse.questionId - 1].text == "") {
+                    subObj.text = "";
                 }
-                subObj.text = name + " " + surveyResultObj[i + jsonParse.questionId - 1].text;
+                else {
+                    let name = "";
+                    for (let j = 0; j < employeeObj.length; j++) {
+                        if (employeeObj[j].id == surveyResultObj[i + jsonParse.questionId - 1].id) {
+                            name = employeeObj[j].name;
+                            break;
+                        }
+                    }
+                    subObj.text = name + "\n" + surveyResultObj[i + jsonParse.questionId - 1].text.replace("\v", "\n");
+                }
                 answerObj.sub.push(subObj);
             }
         }
@@ -236,11 +241,11 @@ async function saveCsv(filePath, saveObj) {
     }
     // デバッグ用
     console.log(saveText);
-/*
-    let blob = new Blob([saveText], { type: "text/plan" });
-    const res = await fetch("test.csv", {
-        method: "PUT",
-        body: blob
-    });
-*/
+    /*
+        let blob = new Blob([saveText], { type: "text/plan" });
+        const res = await fetch("test.csv", {
+            method: "PUT",
+            body: blob
+        });
+    */
 }

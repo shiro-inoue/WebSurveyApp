@@ -76,7 +76,6 @@ async function getEmployeeAnswerDB(json) {
 
 async function setEmployeeAnswerDB(json) {
     let jsonParse = JSON.parse(json);
-    let employeeObj = await readCsv(EMPLOYEE_DATA_PATH);
     let surveyObj = await readCsv(SURVEY_DATA_PATH);
     let surveyResultObj = await readCsv(SURVEY_RESULT_DATA_PATH);
     let resultNo = -1;

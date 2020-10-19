@@ -20,11 +20,11 @@ window.onload = function () {
     getDbAnswers().then(result => {
         if (result) {
             document.getElementById("employeeName").innerHTML = "";
+            dispEmployeeName();
+            dispEmployeeAnswer();
         } else {
             document.getElementById("employeeName").innerHTML = "エラー";
         }
-        dispEmployeeName();
-        dispEmployeeAnswer();
     });
 }
 
@@ -137,20 +137,20 @@ function setSendButtonState() {
 
 
 function setEmployeeAnswer() {
-    answerDB.question[0].sub[0].select = Number(document.getElementById("ans1_1").value);
-    answerDB.question[0].sub[1].select = Number(document.getElementById("ans1_2").value);
+    answerDB.question[0].sub[0].select = Number(document.getElementById("ans1_1").checked);
+    answerDB.question[0].sub[1].select = Number(document.getElementById("ans1_2").checked);
 
-    answerDB.question[1].sub[0].select = Number(document.getElementById("ans2_1").value);
-    answerDB.question[1].sub[1].select = Number(document.getElementById("ans2_2").value);
+    answerDB.question[1].sub[0].select = Number(document.getElementById("ans2_1").checked);
+    answerDB.question[1].sub[1].select = Number(document.getElementById("ans2_2").checked);
 
-    answerDB.question[2].sub[0].select = Number(document.getElementById("ans3_1").value);
-    answerDB.question[2].sub[1].select = Number(document.getElementById("ans3_2").value);
-    answerDB.question[2].sub[2].select = Number(document.getElementById("ans3_3").value);
+    answerDB.question[2].sub[0].select = Number(document.getElementById("ans3_1").checked);
+    answerDB.question[2].sub[1].select = Number(document.getElementById("ans3_2").checked);
+    answerDB.question[2].sub[2].select = Number(document.getElementById("ans3_3").checked);
 
-    answerDB.question[3].sub[0].select = Number(document.getElementById("ans4_1").value);
-    answerDB.question[3].sub[1].select = Number(document.getElementById("ans4_2").value);
-    answerDB.question[3].sub[2].select = Number(document.getElementById("ans4_3").value);
-    answerDB.question[3].sub[3].select = Number(document.getElementById("ans4_4").value);
+    answerDB.question[3].sub[0].select = Number(document.getElementById("ans4_1").checked);
+    answerDB.question[3].sub[1].select = Number(document.getElementById("ans4_2").checked);
+    answerDB.question[3].sub[2].select = Number(document.getElementById("ans4_3").checked);
+    answerDB.question[3].sub[3].select = Number(document.getElementById("ans4_4").checked);
 
     answerDB.question[4].sub[0].text = document.getElementById("ans5_1").value;
 

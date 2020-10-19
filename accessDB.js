@@ -4,11 +4,12 @@ let QUESTIONTYPE = {
     text: 3
 }
 
-const EMPLOYEE_DATA_PATH = "./data/employee.csv"
-const SURVEY_DATA_PATH = "./data/survey.csv"
-const SURVEY_RESULT_DATA_PATH = "./data/surveyResult.csv"
+const EMPLOYEE_DATA_PATH = "./data/employee.csv";
+const SURVEY_DATA_PATH = "./data/survey.csv";
+const SURVEY_RESULT_DATA_PATH = "./data/surveyResult.csv";
 const MAX_SUB_QUESTION = 5;
-const SUB_TITLE_NAME = "subTitle"
+const SUB_TITLE_NAME = "subTitle";
+const SURVEY_RESULT_KEY_TBL = ["id", "questionId", "select", "text"];
 
 async function getEmployeeAnswerDB(json) {
     let jsonParse = JSON.parse(json);
@@ -62,8 +63,8 @@ async function getEmployeeAnswerDB(json) {
                 subObj.text = surveyResultObj[i + resultNo].text;
             }
             else {
-                subObj.select = 0
-                subObj.text = ""
+                subObj.select = 0;
+                subObj.text = "";
             }
             questionObj.sub.push(subObj);
         }
@@ -73,8 +74,60 @@ async function getEmployeeAnswerDB(json) {
     return JSON.stringify(answerObj);
 }
 
-function setEmployeeAnswerDB(json) {
-    return;
+async function setEmployeeAnswerDB(json) {
+    let jsonParse = JSON.parse(json);
+    let surveyObj = await readCsv(SURVEY_DATA_PATH);
+    let surveyResultObj = await readCsv(SURVEY_RESULT_DATA_PATH);
+    let resultNo = -1;
+
+    for (let i = 0; i < surveyResultObj.length; i += surveyObj.length) {
+        if (surveyResultObj[i].id == jsonParse.id) {
+            resultNo = i;
+            break;
+        }
+    }
+
+    if (resultNo >= 0) {
+        for (let i = 0; i < surveyObj.length; i++) {
+            if (surveyObj[i].questiontype == QUESTIONTYPE.text) {
+                surveyResultObj[i + resultNo].text = jsonParse.question[i].sub[0].text;
+            }
+            else {
+                surveyResultObj[i + resultNo].select = 0;
+                for (let j = 0; j < MAX_SUB_QUESTION; j++) {
+                    if (surveyObj[i][SUB_TITLE_NAME + (j + 1).toString(10)] == "") {
+                        break;
+                    }
+                    surveyResultObj[i + resultNo].select += jsonParse.question[i].sub[j].select << j;
+                }
+            }
+        }
+    }
+    else {
+        for (let i = 0; i < surveyObj.length; i++) {
+            let lineObj = new Object();
+
+            lineObj.id = jsonParse.id;
+            lineObj.questionId = surveyObj[i].questionId;
+            if (surveyObj[i].questiontype == QUESTIONTYPE.text) {
+                lineObj.select = 0;
+                lineObj.text = jsonParse.question[i].sub[0].text;
+            }
+            else {
+                lineObj.text = "";
+                lineObj.select = 0;
+                for (let j = 0; j < MAX_SUB_QUESTION; j++) {
+                    if (surveyObj[i][SUB_TITLE_NAME + (j + 1).toString(10)] == "") {
+                        break;
+                    }
+                    lineObj.select += jsonParse.question[i].sub[j].select << j;
+                }
+            }
+            surveyResultObj.push(lineObj);
+        }
+    }
+
+    saveCsv(SURVEY_RESULT_DATA_PATH, surveyResultObj);
 }
 
 async function getAnsweredRatedataDB() {
@@ -146,12 +199,12 @@ async function getAnswerDB(json) {
 async function readCsv(filePath) {
     let csvObj = [];
 
-    const res = await fetch(filePath)
-    const ab = await res.arrayBuffer()
-    const td = new TextDecoder("Shift_JIS")
+    const res = await fetch(filePath);
+    const ab = await res.arrayBuffer();
+    const td = new TextDecoder("Shift_JIS");
     csvText = td.decode(ab);
-
-    let lines = csvText.split("\r\n");
+    csvText = csvText.replace(/\r?\n/g, "\n");
+    let lines = csvText.split("\n");
     let items = lines[0].split(",");
     for (let i = 1; i < lines.length; i++) {
         let lineObj = new Object();
@@ -163,4 +216,31 @@ async function readCsv(filePath) {
     }
 
     return csvObj;
+}
+
+async function saveCsv(filePath, saveObj) {
+    let saveText = "";
+
+    for (let keyName of SURVEY_RESULT_KEY_TBL) {
+        saveText += keyName + ",";
+    }
+    saveText = saveText.slice(0, -1);
+    saveText += "\n";
+
+    for (let i = 0; i < saveObj.length; i++) {
+        for (let keyName of SURVEY_RESULT_KEY_TBL) {
+            saveText += saveObj[i][keyName] + ",";
+        }
+        saveText = saveText.slice(0, -1);
+        saveText += "\n";
+    }
+    // デバッグ用
+    console.log(saveText);
+/*
+    let blob = new Blob([saveText], { type: "text/plan" });
+    const res = await fetch("test.csv", {
+        method: "PUT",
+        body: blob
+    });
+*/
 }
